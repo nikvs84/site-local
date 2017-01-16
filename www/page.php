@@ -1,6 +1,3 @@
 <?php
-	require_once 'header.php';
-	// require_once 'form.php';
-	require_once 'calculator.php';
-	require_once 'footer.php';
+require_once 'lessons/lesson_3_strings.php';
 ?>
