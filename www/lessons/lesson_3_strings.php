@@ -62,7 +62,9 @@
 
 <?php
 	if (isset($password)) {
+		$password = str_replace(" ", "", $password);
 		echo "$password"."</br>";
-		echo md5($password)."</br>";
+		echo "length of password = ".strlen($password);
+		echo "md-hach: ".md5($password)."</br>";
 	}
 ?>
