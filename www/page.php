@@ -1,3 +1,3 @@
 <?php
-require_once 'lessons/lesson_3_strings.php';
+require_once 'lessons/oop/lesson_8_final.php';
 ?>

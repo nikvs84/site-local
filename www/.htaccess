@@ -1,0 +1,3 @@
+#php_value max_execution_time 5
+#php_value extension php_curl.dll;
+AddDefaultCharset UTF-8

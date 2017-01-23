@@ -1,0 +1,6 @@
+user1<end>Comment1<end>user1<end>Comment1<end>user2<end>Comment2<end>user2<end>Comment2<end>user2<end>Comment2<end>user2<end>Warning: feof(): 3 is not a valid stream resource in C:\\xampp\\htdocs\\demos\\screener\\candleScreener.php on line 61
+
+Warning: fgetcsv(): 3 is not a valid stream resource in C:\\xampp\\htdocs\\demos\\screener\\candleScreener.php on line 62<end>user2<end>c
+v
+f
+...<end>
