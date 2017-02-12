@@ -4,10 +4,23 @@
 
 	$db = new DataBase();
 	$manage = new Manage($db);
-	if ($_POST["reg"])
+	if ($_GET["login"]) {
+		$r = $manage->checkConfirm($_GET["login"], $_GET["hash"]);
+	} elseif ($_POST["reg"]) { 
 		$r = $manage->regUser();
-	else
+	} elseif ($_POST["auth"]) {
+		$r = $manage->login();
+	} elseif ($_GET["logout"]) {
+		$r = $manage->logout();
+	} elseif ($_POST["restore_start"]) {
+		$r = $manage->restorePasswordStart();
+	} elseif ($_POST["password_restore"]) {
+		$r = $manage->restorePassword();
+	} elseif ($_POST["poll"]) {
+		$r = $manage->poll();
+	} else {
 		exit;
+	}
 	$manage->redirect($r);
 
 ?>

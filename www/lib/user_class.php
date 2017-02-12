@@ -1,56 +1,68 @@
 <?php
-	class User {
-		private $db;
-		private static $user = null;
+	require_once 'global_class.php';
 
-		public function __construct($value='') {
-			$this->db = new mysqli("localhost", "root", "", "mybase");
-			$this->db->query("SET NAMES 'utf8'");
+	class User extends GlobalClass {
+
+		public function __construct($db) {
+			parent::__construct("users", $db);
 		}
 
-		public static function getObject() {
-			if (self::$user === null)
-				self::$user = new User();
-			return self::$user;
-		}
-
-		public function regUser ($login, $password) {
-			if ($login == "" || $password == "")
+		public function addUser($login, $password, $email, $regdate, $confirm) {
+			if (!$this->checkValid($login, $password, $email, $regdate))
 				return false;
-			$password = md5($password);
-			return $this->db->query("INSERT INTO `users` (`login`, `password`, `regdate`) VALUES ('$login', '$password', '".time()."')");
+			return $this->add(array("login" => $login, "password" => $password, "email" => $email, "regdate" => $regdate, "confirm" => $confirm));
 		}
 
-		private function checkUser($login, $password) {
-			$resultSet = $this->db->query("SELECT `password` FROM `users` WHERE `login`='$login'");
-			$user = $resultSet->fetch_assoc();
-			$resultSet->close();
+		public function editUser($id, $login, $password, $email, $regdate) {
+			if (!$this->checkValid($login, $password, $email, $regdate))
+				return false;
+			return $this->edit($id, array("login" => $login, "password" => $password, "email" => $email, "regdate" => $regdate));
+		}
+
+		public function confirmByLogin($login) {
+			$id = $this->getIDOnLogin($login);
+			return $this->setFieldOnId($id, "confirm", "");
+		}
+
+		public function getConfirmField($login) {
+			return $this->getField("confirm", "login", $login);
+		}
+
+		public function isConfirm($login) {
+			return ($this->getConfirmField($login) == "");
+		}
+
+		public function isExistsUser($login) {
+			return $this->isExists("login", $login);
+		}
+
+		public function checkUser($login, $password) {
+			$user = $this->getUserOnLogin($login);
 			if (!$user)
 				return false;
 			return ($user["password"] === $password);
+
 		}
 
-		public function isAuth() {
-			session_start();
-			$login = $_SESSION["login"];
-			$password = $_SESSION["password"];
-			return $this->checkUser($login, $password);
+		public function getIDOnLogin($login) {
+			return $id = $this->getField("id", "login", $login);
 		}
 
-		public function login($login, $password) {
-			$password = md5($password);
-			if ($this->checkUser($login, $password)) {
-				session_start();
-				$_SESSION["login"] = $login;
-				$_SESSION["password"] = $password;
-				return true;
-			} else
+		public function getUserOnLogin($login) {
+			$id = $this->getIdOnLogin($login);
+			return $this->get($id);
+		}
+
+		private function checkValid($login, $password, $email, $regdate) {
+			if (!$this->valid->validLogin($login))
 				return false;
-		}
-
-		public function __dextruct() {
-			if ($this->db)
-				$this->db->close();
+			if (!$this->valid->validHash($password))
+				return false;
+			if (!$this->valid->validEmail($email))
+				return false;
+			if (!$this->valid->validTimeStamp($regdate))
+				return false;
+			return true;
 		}
 	}
 ?>

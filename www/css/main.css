@@ -1,0 +1,112 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.clear {
+	clear: both;
+}
+
+.right {
+	text-align: right;
+}
+
+#header h2 {
+	text-align: center;
+}
+
+hr {
+	margin: 0;
+}
+
+#left, #right {
+	min-height: 300px;
+	padding: 0 10px;
+	width: 230px;
+}
+
+#left {
+	border-right: 1px solid #000;
+	float: left;
+}
+
+.message {
+	color: #f00;
+	text-align: center;
+}
+
+#right {
+	border-left: 1px solid #000;
+	float: right;
+}
+
+.banner {
+	border: 1px solid #000;
+	margin: 10px auto 0;
+}
+
+#center {
+	border-left: 1px solid #000;
+	border-right: 1px solid #000;
+	margin: 0 250px;
+	padding: 0 10px;
+}
+
+#center h1 {
+	margin: 0;
+	text-align: center;
+}
+
+div.section {
+	overflow: hidden;
+}
+
+div.section-img {
+	float: left;
+	padding-right: 5px;
+}
+
+div.section-img img {
+	width: 100%;
+}
+
+div.article-img {
+	float: left;
+	padding-right: 5px;
+}
+
+div img {
+	/*margin-right: 5px;*/
+}
+
+.marked-words {
+	font-weight: bold;
+	background-color: #ff0;
+}
+
+#message {
+	text-align: center;
+}
+
+#pagination p {
+	font-size: 110%;
+	margin: 0;
+	text-align: center;
+}
+
+#pagination p a {
+	display: inline-block;
+	padding: 3px;
+}
+
+#footer p {
+	text-align: center;
+}
+
+#reg form table {
+	margin: 0 auto;
+}
+
+#message p {
+	text-align: center;
+}

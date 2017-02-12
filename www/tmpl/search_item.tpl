@@ -1,0 +1,1 @@
+<li><a href="%link%">%title%</a><p>%preview%</p></li>
