@@ -84,6 +84,30 @@ div img {
 	background-color: #ff0;
 }
 
+div.comment {
+	background-color: #eef;
+	border: 1px solid gray;
+	border-radius: 5px;
+	margin-top: 5px;
+	padding: 3px;
+}
+
+div.comment-user-name {
+	background-color: #ccf;
+	float: left;
+	text-align: left;
+}
+
+div.comment-date {
+	background-color: #dde;
+	text-align: right;
+}
+
+div.comment-text {
+	/*background-color: #eef;*/
+	border-top: 1px solid #77a;
+}
+
 #message {
 	text-align: center;
 }

@@ -15,6 +15,7 @@
 		var $dir_tmpl = "tmpl/";
 		var $count_blog = 2;
 		var $fonts = "fonts/";
+		var $guestName = "Guest";
 
 		var $min_login = 3;
 		var $max_login = 255;

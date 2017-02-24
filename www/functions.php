@@ -6,7 +6,7 @@
 	$manage = new Manage($db);
 	if ($_GET["login"]) {
 		$r = $manage->checkConfirm($_GET["login"], $_GET["hash"]);
-	} elseif ($_POST["reg"]) { 
+	} elseif ($_POST["reg"]) {
 		$r = $manage->regUser();
 	} elseif ($_POST["auth"]) {
 		$r = $manage->login();
@@ -18,6 +18,12 @@
 		$r = $manage->restorePassword();
 	} elseif ($_POST["poll"]) {
 		$r = $manage->poll();
+	} elseif ($_GET["change_password_start"]) {
+		$r = $manage->changePasswordStart();
+	} elseif ($_POST["password_change"]) {
+		$r = $manage->changePassword();
+	} elseif ($_POST["send_comment"]) {
+		$r = $manage->addComment();
 	} else {
 		exit;
 	}
@@ -26,7 +32,7 @@
 ?>
 
 <?php
-/*	
+/*
 	function add($x, $y) {
 		return ($x + $y);
 	}

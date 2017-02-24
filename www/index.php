@@ -9,6 +9,7 @@
 	require_once 'lib/confirmcontent_class.php';
 	require_once 'lib/manage_class.php';
 	require_once 'lib/passwordrestorecontent_class.php';
+	require_once 'lib/passwordchangecontent_class.php';
 	require_once 'lib/searchcontent_class.php';
 	require_once 'lib/notfoundcontent_class.php';
 	require_once 'lib/pollcontent_class.php';
@@ -36,6 +37,9 @@
 			break;
 		case 'password_restore':
 			$content = new PasswordRestoreContent($db);
+			break;
+		case 'password_change':
+			$content = new PasswordChangeContent($db);
 			break;
 		case 'confirm':
 			header("Location: http://".$_SERVER["HTTP_HOST"]."/functions.php/?login=".$_GET["login"]."&hash=".$_GET["hash"]);

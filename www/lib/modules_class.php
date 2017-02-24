@@ -8,6 +8,8 @@
 	require_once 'message_class.php';
 	require_once 'poll_class.php';
 	require_once 'pollvariant_class.php';
+	require_once 'comment_class.php';
+	// require_once 'lib/passwordchange_class.php';
 
 	abstract class Modules {
 		protected $config;
@@ -21,6 +23,8 @@
 		protected $user_info;
 		protected $poll;
 		protected $poll_variant;
+		protected $password_change;
+		protected $comments;
 
 		public function __construct($db) {
 			session_start();
@@ -35,6 +39,8 @@
 			$this->user_info = $this->getUser();
 			$this->poll = new Poll($db);
 			$this->poll_variant = new PollVariant($db);
+			$this->comments = new Comment($db);
+			// $this->password_change = new PasswordChange($db);
 		}
 
 		function getUser() {
@@ -57,6 +63,7 @@
 			$sr["middle"] = $this->getMiddle();
 			$sr["bottom"] = $this->getBottom();
 			$sr["poll"] = $this->getPoll();
+			// $sr["password_change"] = $this->getPasswordChange();
 			return $this->getReplaceTemplate($sr, "main");
 		}
 

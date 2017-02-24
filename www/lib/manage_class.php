@@ -3,18 +3,21 @@
 	require_once 'user_class.php';
 	require_once 'email_class.php';
 	require_once 'pollvariant_class.php';
+	require_once 'comment_class.php';
 
 	class Manage {
 		private $config;
 		private $user;
 		private $data;
 		private $poll_variant;
+		private $comment;
 
 		function __construct($db) {
 			session_start();
 			$this->config = new Config();
 			$this->user = new User($db);
 			$this->poll_variant = new PollVariant($db);
+			$this->comment = new Comment($db);
 			$this->data = $this->secureData(array_merge($_POST, $_GET));
 		}
 
@@ -109,7 +112,7 @@
 			} else {
 				return $this->returnPageMessage("ERROR_AUTH", $this->config->address."?view=message");
 			}
-			
+
 		}
 
 		public function restorePassword() {
@@ -129,7 +132,39 @@
 						return $this->returnPageMessage("UNKNOWN_ERROR", $this->config->address."?view=message");
 					}
 				}
-				
+
+			}
+		}
+
+		public function changePasswordStart() {
+			return $this->returnPageMessage("PASSWORD_CHANGE", $this->config->address."?view=password_change");
+		}
+
+		public function changePassword() {
+			$login = $this->data["login"];
+			$password = $this->data["password"];
+			$newPassword = $this->data["new_password"];
+			$newPasswordConfirm = $this->data["new_password_confirm"];
+
+			// print_r($this->data);
+			// echo "<br/>";
+
+			if ($this->data["captcha"] == "" | $this->data["captcha"] != $_SESSION["rand"]) {
+				return $this->returnMessage("ERROR_CAPTCHA", $_SERVER["HTTP_REFERER"]);
+			} elseif ($newPassword === $newPasswordConfirm) {
+				if ($this->user->checkUser($login, $this->hashPassword($password))) {
+					// echo "user exists = ".$this->user->checkUser($login, hashPassword($password));
+					// echo "<br/>";
+					 $user = $this->user->getUserOnLogin($login);
+					// print_r($user);
+					// echo "<br/>";
+					if ($this->user->editUser($user["id"], $user["login"], $this->hashPassword($newPassword), $user["email"], $user["regdate"]))
+						return $this->returnMessage("PASSWORD_CHANGECOMPLETE", $_SERVER["HTTP_REFERER"]);
+				} else {
+					return $this->returnMessage("ERROR_AUTH", $_SERVER["HTTP_REFERER"]);;
+				}
+			} else {
+				return $this->returnMessage("PASSWORD_NOTCONFIRM", $_SERVER["HTTP_REFERER"]);
 			}
 		}
 
@@ -180,6 +215,18 @@
 			$this->poll_variant->setVotes($id, $variant["votes"] + 1);
 
 			return $this->config->address."?view=poll&id=$poll_id";
+		}
+
+		public function addComment() {
+			$article_id = $this->data["article_id"];
+			$user_id = $this->user->getIDOnLogin($this->data["login"]);
+			if (!$user_id)
+				$user_id = 0;
+			$text = $this->data["comment"];
+
+			$this->comment->addComment($article_id, $user_id, $text);
+
+			return $_SERVER["HTTP_REFERER"];
 		}
 	}
 ?>
